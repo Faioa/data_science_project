@@ -1,6 +1,6 @@
 # LU3IN114 Project
 ## The team
-**_Matthieu Dartois - 21113417_**
+**_Matthieu Dartois - 21113417_**\
 **_William Rosewarn - 21102208_**
 ___
 
