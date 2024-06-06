@@ -1,6 +1,8 @@
 import pandas as pd
 
-def predict_new_film(new_film, vectorizer, model):
+from sklearn.impute import SimpleImputer
+
+def predict_new_film(new_film, vectorizer, model, imputer=None):
     # Préparer les données du nouveau film
     new_film['genres'] = ' '.join(new_film['genres'])
     new_film['keywords'] = ' '.join(new_film['keywords'])
@@ -20,15 +22,15 @@ def predict_new_film(new_film, vectorizer, model):
     
     new_film_features = pd.DataFrame({
         'budget': [new_film['budget']],
-        'popularity': [new_film['popularity']],
         'runtime': [new_film['runtime']]
     })
     
     new_film_features = pd.concat([new_film_features.reset_index(drop=True), new_film_tfidf_df], axis=1)
     
-    new_film_features_imputed = imputer.transform(new_film_features)
+    if imputer is not None:
+        new_film_features = imputer.transform(new_film_features)
     
     # Utiliser le modèle entraîné pour prédire la note
-    predicted_vote_average = model.predict(new_film_features_imputed)
+    predicted_vote_average = model.predict(new_film_features)
     
     return predicted_vote_average[0]
